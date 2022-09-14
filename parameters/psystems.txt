@@ -1,0 +1,2 @@
+GRAMMAR_FILE:           psystems\ruleset.bnf
+FITNESS_FUNCTION:       psystems.identification_problem
