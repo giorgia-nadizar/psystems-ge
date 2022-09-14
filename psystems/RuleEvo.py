@@ -1,4 +1,5 @@
-from Membrane import Membrane, Rule, RuleType
+from Membrane import Membrane
+from Rule import Rule, RuleType
 import random as rnd
 
 
@@ -91,7 +92,7 @@ def evolution_strategy(evo, save=100):
     for i in range(0, evo.generations):
         pop = generation(evo, pop)
         best_fit.append(mean_error(evo, pop[0]))
-        if (i+1) % save == 0:
+        if (i + 1) % save == 0:
             print(f"{i + 1}\t{mean_error(evo, pop[0])}")
     return pop, best_fit
 
