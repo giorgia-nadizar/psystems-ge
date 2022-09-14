@@ -1,0 +1,9 @@
+<ruleset> ::= <rule>; <ruleset> |
+              <rule>
+<rule> ::= <membrane> {<multiset>} rewrite {<multiset>} |
+            <membrane> {<multiset>} sendin {<multiset>} |
+            <membrane> {<multiset>} sendout {<multiset>} |
+            <membrane> {<multiset>} division {<multiset>}{<multiset>}
+<multiset> ::= <multiset>,<object> | <object>
+<membrane> ::= m1 | m2 | m3
+<object> ::= o1 | o2 | o3
