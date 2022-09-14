@@ -1,4 +1,5 @@
-from Membrane import Membrane, Rule, RuleType
+from Membrane import Membrane
+from Rule import Rule, RuleType
 from RuleEvo import RuleEvo, evolution_strategy, detailed_errors
 import sys
 import json
@@ -21,10 +22,10 @@ def variable_assignment(n):
     objects = set()
     for i in range(0, n):
         for j in range(0, i):
-            r = Rule([f"x({i},{j+1})"], [[f"x({i},{j})"]], "k",
+            r = Rule([f"x({i},{j + 1})"], [[f"x({i},{j})"]], "k",
                      RuleType.EVOLUTION)
             ruleset.append(r)
-            objects.add(f"x({i},{j+1})")
+            objects.add(f"x({i},{j + 1})")
             objects.add(f"x({i},{j})")
         r = Rule([f"x({i},0)"], [[f"t{i}"], [f"f{i}"]], "k", RuleType.DIVISION)
         ruleset.append(r)
@@ -42,30 +43,30 @@ def tm_simulation(n):
     ruleset = []
     content = []
     objects = set()
-    for i in range(0, n-1):
+    for i in range(0, n - 1):
         #  δ(q,1) = (q,0,→)
         r = Rule([f"q({i})", f"1_{i}"],
-                 [[f"q({i+1})", f"0_{i}"]], "h",
+                 [[f"q({i + 1})", f"0_{i}"]], "h",
                  RuleType.EVOLUTION)
         ruleset.append(r)
         objects.add(f"q({i})")
-        objects.add(f"q({i+1})")
+        objects.add(f"q({i + 1})")
     for i in range(1, n):
         # δ(q,0) = (r,1,←)
         r = Rule([f"q({i})", f"0_{i}"],
-                 [[f"r({i-1})", f"1_{i}"]], "h",
+                 [[f"r({i - 1})", f"1_{i}"]], "h",
                  RuleType.EVOLUTION)
         ruleset.append(r)
-        objects.add(f"r({i-1})")
+        objects.add(f"r({i - 1})")
         objects.add(f"({i})")
     for i in range(1, n):
         # δ(r,0) = (r,0,←) and δ(r,1) = (r,1,←)
         r = Rule([f"r({i})", f"0_{i}"],
-                 [[f"r({i-1})", f"0_{i}"]], "h",
+                 [[f"r({i - 1})", f"0_{i}"]], "h",
                  RuleType.EVOLUTION)
         ruleset.append(r)
         objects.add(f"r({i})")
-        objects.add(f"({i-1})")
+        objects.add(f"({i - 1})")
     r = Rule(["r(0)"],
              [["q(0)"]], "h",
              RuleType.EVOLUTION)
@@ -93,11 +94,11 @@ def send_in(n):
     objects = set()
     for i in range(0, n):
         for j in range(i, 0, -1):
-            r = Rule([f"x({i},{j})"], [[f"x({i},{j-1})"]], "h",
+            r = Rule([f"x({i},{j})"], [[f"x({i},{j - 1})"]], "h",
                      RuleType.EVOLUTION)
             ruleset.append(r)
             objects.add(f"x({i},{j})")
-            objects.add(f"x({i},{j-1})")
+            objects.add(f"x({i},{j - 1})")
         r = Rule([f"x({i},0)"], [[f"x({i})"]], "k", RuleType.SEND_IN)
         ruleset.append(r)
         content.append(f"x({i},{i})")
@@ -115,11 +116,11 @@ def send_out(n):
     objects = set()
     for i in range(0, n):
         for j in range(i, 0, -1):
-            r = Rule([f"x({i},{j})"], [[f"x({i},{j-1})"]], "k",
+            r = Rule([f"x({i},{j})"], [[f"x({i},{j - 1})"]], "k",
                      RuleType.EVOLUTION)
             ruleset.append(r)
             objects.add(f"x({i},{j})")
-            objects.add(f"x({i},{j-1})")
+            objects.add(f"x({i},{j - 1})")
         r = Rule([f"x({i},0)"], [[f"x({i})"]], "k", RuleType.SEND_OUT)
         ruleset.append(r)
         content.append(f"x({i},{i})")
@@ -131,18 +132,15 @@ def send_out(n):
     return h, ruleset, objects
 
 
-
 def read_param(filename):
     with open(filename) as f:
         conf = json.load(f)
-        max_lhs=conf["max_lhs"]
-        max_rhs=conf["max_rhs"]
-        max_ruleset_size=conf["max_ruleset_size"]
-        max_mutation=conf["max_mutation"]
-        mu=conf["mu"]
+        max_lhs = conf["max_lhs"]
+        max_rhs = conf["max_rhs"]
+        max_ruleset_size = conf["max_ruleset_size"]
+        max_mutation = conf["max_mutation"]
+        mu = conf["mu"]
     return max_lhs, max_rhs, max_ruleset_size, max_mutation, mu
-
-
 
 
 def read_conf(filename, objects, labels, train):
@@ -178,7 +176,7 @@ def experiments(n, name, config):
         train = make_train_set(m, r, n)
         evo = read_conf(config, list(obj_all), ["h", "k"], train)
     else:
-        train = make_train_set(m, r, n**2)
+        train = make_train_set(m, r, n ** 2)
         evo = read_conf(config, list(obj_all), ["h"], train)
     pop, best_fit = evolution_strategy(evo)
     opt = pop[0]
@@ -205,15 +203,15 @@ if __name__ == '__main__':
     max_lhs, max_rhs, max_ruleset_size, max_mutation, mu = read_param(config)
     all_opts = []
     all_best = []
-    
+
     if sys.argv[1] != sys.argv[5][:-2]:
         print("not the same model")
         sys.exit()
-    
+
     if sys.argv[2] != sys.argv[5][-1]:
         print("not the same number")
         sys.exit()
-    
+
     for i in range(0, repetitions):
         print("Repetition : " + str(i))
         opt, best_fit = experiments(int(sys.argv[2]), sys.argv[1], config)
@@ -237,9 +235,9 @@ if __name__ == '__main__':
         os.mkdir(dir5)
     with open(f"{dir5 + prefix}-fitness.csv", "w") as csv:
         for gen in range(0, len(all_best[0])):
-            for run in range(0, repetitions-1):
+            for run in range(0, repetitions - 1):
                 csv.write(f"{all_best[run][gen]}, ")
-            csv.write(f"{all_best[repetitions-1][gen]}\n")
+            csv.write(f"{all_best[repetitions - 1][gen]}\n")
     with open(f"{dir5 + prefix}-rules.txt", "w") as f:
         for run in range(0, repetitions):
             for rule in all_opts[run]:
