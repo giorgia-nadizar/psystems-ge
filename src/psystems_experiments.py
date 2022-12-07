@@ -8,6 +8,7 @@
 """ Python GE implementation """
 import _pickle
 import bz2
+import random
 from os import path
 
 from psystems.Membrane import Membrane
@@ -146,7 +147,8 @@ def send_out(n):
     return h, ruleset, objects
 
 
-def create_settings(n, name, idx=0):
+def create_settings(n, name, seed=0):
+    random.seed(seed)
     if name == "evolution":
         m, r, obj_all = variable_assignment(n)
     elif name == "send_in":
@@ -164,15 +166,15 @@ def create_settings(n, name, idx=0):
         train = make_train_set(m, r, n ** 2)
         labels = ["h"]
     # save dataset to file
-    with bz2.BZ2File(path.join("..", "datasets", f"Psystems/train_{name}_{idx}.pbz2"), 'w') as dataset_file:
+    with bz2.BZ2File(path.join("..", "datasets", f"Psystems/train_{name}_{seed}.pbz2"), 'w') as dataset_file:
         _pickle.dump(train, dataset_file)
     # create grammar file
     with open(path.join("..", "grammars", "psystems/ruleset.bnf")) as template_grammar_file:
         template_grammar = template_grammar_file.read()
         grammar = template_grammar.replace('LABELS', ' | '.join(labels)).replace('OBJECTS', ' | '.join(obj_all))
-        with open(path.join("..", "grammars", f"psystems/ruleset_{name}_{idx}.bnf"), "w+") as target_grammar_file:
+        with open(path.join("..", "grammars", f"psystems/ruleset_{name}_{seed}.bnf"), "w+") as target_grammar_file:
             target_grammar_file.write(grammar)
-    return f"{name}_{idx}"
+    return f"{name}_{seed}"
 
 
 def mane():
