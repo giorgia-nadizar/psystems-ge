@@ -1,3 +1,5 @@
+import _pickle
+import bz2
 from os import path
 
 import numpy as np
@@ -107,3 +109,8 @@ def get_data(train, test):
     test_out = get_Xy_train_test_separate(train_set, test_set, skip_header=1)
 
     return training_in, training_out, test_in, test_out
+
+
+def get_compressed_dataset(dataset):
+    data = bz2.BZ2File(path.join("..", "datasets", dataset), 'rb')
+    return _pickle.load(data)
