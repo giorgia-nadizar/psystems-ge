@@ -5,7 +5,8 @@ from fitness.base_ff_classes.base_ff import base_ff
 # TODO take inspiration from supervised_learning fitness
 # TODO edit grammar copying from supervised_learning for the range of membranes/objects
 
-class identification_problem(base_ff):
+
+class IdentificationProblem(base_ff):
     """
     Basic fitness function template for writing new fitness functions. This
     basic template inherits from the base fitness function class, which
