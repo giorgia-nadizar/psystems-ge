@@ -232,10 +232,6 @@ def load_params(file_name):
             params[key] = value
 
 
-def set_exp_name(exp_name):
-    params['EXPERIMENT_NAME'] = exp_name
-
-
 def set_params(command_line_args, create_files=True):
     """
     This function parses all command line arguments specified by the user.
@@ -273,6 +269,7 @@ def set_params(command_line_args, create_files=True):
     # Join original params dictionary with command line specified arguments.
     # NOTE that command line arguments overwrite all previously set parameters.
     params.update(cmd_args)
+    params['EXPERIMENT_NAME'] = f"{params['RULE_TYPE']}_{params['DATASET_SEED']}"
     for p in params:
         if type(params[p]) == str:
             params[p] = params[p].replace('EXPERIMENT_NAME', params['EXPERIMENT_NAME'])
