@@ -273,6 +273,9 @@ def set_params(command_line_args, create_files=True):
     # Join original params dictionary with command line specified arguments.
     # NOTE that command line arguments overwrite all previously set parameters.
     params.update(cmd_args)
+    for p in params:
+        if type(params[p]) == str:
+            params[p] = params[p].replace('EXPERIMENT_NAME', params['EXPERIMENT_NAME'])
 
     if params['LOAD_STATE']:
         # Load run from state.
