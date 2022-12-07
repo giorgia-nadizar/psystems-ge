@@ -1,9 +1,8 @@
-from random import random
-
+from algorithm.parameters import params
 from fitness.base_ff_classes.base_ff import base_ff
-
-# TODO take inspiration from supervised_learning fitness
-# TODO edit grammar copying from supervised_learning for the range of membranes/objects
+from psystems.Membrane import Membrane
+from psystems.Rule import Rule
+from utilities.fitness.get_data import get_compressed_dataset
 
 
 class IdentificationProblem(base_ff):
@@ -46,6 +45,10 @@ class IdentificationProblem(base_ff):
         # Initialise base fitness function class.
         super().__init__()
 
+        # Get training set
+        self.problem = params['EXPERIMENT_NAME']
+        self.train_set = get_compressed_dataset(params['DATASET_TRAIN'].replace('EXPERIMENT_NAME', self.problem))
+
     def evaluate(self, ind, **kwargs):
         """
         Default fitness execution call for all fitness functions. When
@@ -62,11 +65,20 @@ class IdentificationProblem(base_ff):
         :param kwargs: Optional extra arguments.
         :return: The fitness of the evaluated individual.
         """
-        print(ind.phenotype)
-        # TODO parse individual from string -> create ruleset and evaluate it
+        ruleset = [Rule.from_string(r) for r in ind.phenotype.split('; ')]
 
         # Evaluate the fitness of the phenotype
-        # fitness = eval(ind.phenotype)
-        fitness = random()
+        return self.compute_error(self.train_set, ruleset, verbose=False)
 
-        return fitness
+    @staticmethod
+    def compute_error(train_set, ruleset, verbose=True):
+      err = 0
+      n = len(train_set)
+      for before, after in train_set:
+        b = Membrane.clone(before)
+        b.apply(ruleset, verbose=False)
+        d = Membrane.distance(b, after)
+        if verbose:
+          print(f'Input: {before}\tObtained: {b}\tExpected: {after}\tDist={d}\n')
+        err += d
+      return err / n
