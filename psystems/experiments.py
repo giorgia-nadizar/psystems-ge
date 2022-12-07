@@ -187,16 +187,7 @@ def experiments(n, name, config):
     return opt, best_fit
 
 
-def train_sets_creation():
-    n = 5
-    m, r, obj_all = variable_assignment(n)
-    train = make_train_set(m, r, n)
-    for el in train:
-        print(el)
-
 if __name__ == '__main__':
-    train_sets_creation()
-    exit(1)
     try:
         prefix = sys.argv[5]
     except Exception:
