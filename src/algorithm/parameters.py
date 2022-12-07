@@ -350,7 +350,7 @@ def set_params(command_line_args, create_files=True):
 
         # Parse grammar file and set grammar class.
         params['BNF_GRAMMAR'] = grammar.Grammar(
-            path.join("..", "grammars", params['GRAMMAR_FILE']))
+            path.join("..", "grammars", params['GRAMMAR_FILE'].replace('EXPERIMENT_NAME', params['EXPERIMENT_NAME'])))
 
         # If OPTIMIZE_CONSTANTS, check that the grammar is suitable
         if params['OPTIMIZE_CONSTANTS']:

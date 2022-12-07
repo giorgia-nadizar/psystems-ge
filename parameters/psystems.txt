@@ -1,2 +1,6 @@
-GRAMMAR_FILE:           psystems\ruleset.bnf
+EXPERIMENT_NAME:        send_in_0
 FITNESS_FUNCTION:       psystems.IdentificationProblem
+DATASET_TRAIN:          Psystems\train_EXPERIMENT_NAME.pbz2
+GRAMMAR_FILE:           psystems\ruleset_EXPERIMENT_NAME.bnf
+POPULATION_SIZE:        10
+GENERATIONS:            10
