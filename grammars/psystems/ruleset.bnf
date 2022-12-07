@@ -1,8 +1,8 @@
 <ruleset> ::= <rule>; <ruleset> |
               <rule>
-<rule> ::= <membrane> {<multiset>} rewrite {<multiset>} |
-            <membrane> {<multiset>} sendin {<multiset>} |
-            <membrane> {<multiset>} sendout {<multiset>} |
+<rule> ::= <membrane> {<multiset>} evolution {<multiset>} |
+            <membrane> {<multiset>} send_in {<multiset>} |
+            <membrane> {<multiset>} send_out {<multiset>} |
             <membrane> {<multiset>} division {<multiset>}{<multiset>}
 <multiset> ::= <multiset>,<object> | <object>
 <membrane> ::= m1 | m2 | m3
