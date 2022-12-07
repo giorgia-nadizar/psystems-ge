@@ -14,7 +14,7 @@ from psystems.Membrane import Membrane
 from psystems.Rule import Rule, RuleType
 from utilities.algorithm.general import check_python_version
 from stats.stats import get_stats
-from algorithm.parameters import params, set_params
+from algorithm.parameters import params, set_params, set_exp_name
 import sys
 
 check_python_version()
@@ -172,11 +172,12 @@ def create_settings(n, name, idx=0):
         grammar = template_grammar.replace('LABELS', ' | '.join(labels)).replace('OBJECTS', ' | '.join(obj_all))
         with open(path.join("..", "grammars", f"psystems/ruleset_{name}_{idx}.bnf"), "w+") as target_grammar_file:
             target_grammar_file.write(grammar)
+    return f"{name}_{idx}"
 
 
 def mane():
-
-    create_settings(2, 'send_in')
+    exp_name = create_settings(2, 'send_in', 0)
+    set_exp_name(exp_name)
 
     """ Run program """
     set_params(sys.argv[1:])  # exclude the ponyge.py arg itself

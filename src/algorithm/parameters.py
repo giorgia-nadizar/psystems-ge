@@ -232,6 +232,10 @@ def load_params(file_name):
             params[key] = value
 
 
+def set_exp_name(exp_name):
+    params['EXPERIMENT_NAME'] = exp_name
+
+
 def set_params(command_line_args, create_files=True):
     """
     This function parses all command line arguments specified by the user.
