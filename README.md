@@ -17,11 +17,21 @@ pip install -r requirements.txt
 $ cd src
 $ python psystems_experiments.py --parameters psystems.txt
 ```
-This will automatically create a sequence of membrane configurations and a suitable grammar for evolving the generator ruleset.
+This will automatically create a sequence of membrane configurations and a suitable grammar for evolving the ruleset.
+The default values for ruleset size, rule type, and dataset generation seed, are 10, send_in, and 0, respectively.
+It is possible to pass additional parameters to the script to change them, as for example:
 
-Currently,
-- n of rules = 2
-- rule type = send_in
-- id = 0
+```
+$ cd src
+$ python psystems_experiments.py --parameters psystems.txt --random_seed 1 --ruleset_size 15 --rule_type send_out --dataset_seed 1
+```
 
-We will make them customizable.
+### Outcomes
+Each experiment generates some files:
+- the grammar used (all follow the same template, but differ in the objects and membranes) $\to$ grammars/psystems folder
+- the training set $\to$ datasets/Psystems folder
+- the results of the experiment $\to$ results/exp_name/machine_name_timestamp folder
+  - stats.tsv reports the progress of evolution
+  - parameters.txt summarized the employed parameters
+  - best.txt reports the best individual
+  - best_fitness.pdf displays the evolution of the fitness of the best individual
