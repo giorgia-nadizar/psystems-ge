@@ -431,6 +431,22 @@ def parse_cmd_args(arguments):
                         action='store_true',
                         default=None,
                         help='Saves plots for best fitness.')
+    # P SYSTEMS SPECIFIC
+    parser.add_argument('--rule_type',
+                        dest='RULE_TYPE',
+                        type=str,
+                        default='send_in',
+                        help='Specifies the rule to generate the training set.')
+    parser.add_argument('--ruleset_size',
+                        dest='RULESET_SIZE',
+                        type=int,
+                        default=5,
+                        help='Specifies the target size of the ruleset to generate the training set.')
+    parser.add_argument('--dataset_seed',
+                        dest='DATASET_SEED',
+                        type=int,
+                        default=0,
+                        help='Specifies the random seed to generate the training set.')
 
     # REVERSE-MAPPING
     parser.add_argument('--reverse_mapping_target',

@@ -3,3 +3,5 @@ DATASET_TRAIN:          Psystems\train_EXPERIMENT_NAME.pbz2
 GRAMMAR_FILE:           psystems\ruleset_EXPERIMENT_NAME.bnf
 POPULATION_SIZE:        10
 GENERATIONS:            10
+MULTICORE:              True
+CORES:                  4

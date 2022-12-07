@@ -13,9 +13,10 @@ from os import path
 
 from psystems.Membrane import Membrane
 from psystems.Rule import Rule, RuleType
+from utilities.algorithm.command_line_parser import parse_cmd_args
 from utilities.algorithm.general import check_python_version
 from stats.stats import get_stats
-from algorithm.parameters import params, set_params, set_exp_name
+from algorithm.parameters import params, set_params
 import sys
 
 check_python_version()
@@ -147,7 +148,7 @@ def send_out(n):
     return h, ruleset, objects
 
 
-def create_settings(n, name, seed=0):
+def generate_dataset_and_grammar(n, name, seed=0):
     random.seed(seed)
     if name == "evolution":
         m, r, obj_all = variable_assignment(n)
@@ -178,11 +179,10 @@ def create_settings(n, name, seed=0):
 
 
 def mane():
-    exp_name = create_settings(2, 'send_in', 0)
-    set_exp_name(exp_name)
-
     """ Run program """
-    set_params(sys.argv[1:])  # exclude the ponyge.py arg itself
+    cmd_args, _ = parse_cmd_args(sys.argv[1:])
+    generate_dataset_and_grammar(cmd_args['RULESET_SIZE'], cmd_args['RULE_TYPE'], cmd_args['DATASET_SEED'])
+    set_params(sys.argv[1:])
 
     # Run evolution
     individuals = params['SEARCH_LOOP']()
