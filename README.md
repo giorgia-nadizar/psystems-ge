@@ -18,8 +18,10 @@ $ cd src
 $ python psystems_experiments.py --parameters psystems.txt
 ```
 This will automatically create a sequence of membrane configurations and a suitable grammar for evolving the generator ruleset.
+
 Currently,
 - n of rules = 2
 - rule type = send_in
 - id = 0
+
 We will make them customizable.
