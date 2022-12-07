@@ -14,8 +14,8 @@ pip install -r requirements.txt
 
 ### Run an experiment
 ```
-$ cd src
-$ python psystems_experiments.py --parameters psystems.txt
+cd src
+python psystems_experiments.py --parameters psystems.txt
 ```
 This will automatically create a sequence of membrane configurations and a suitable grammar for evolving the ruleset.
 The file psystems.txt (located in the parameters folder) can be customized to edit parameters, e.g., alter number of generations or population size.
@@ -23,8 +23,8 @@ The default values for ruleset size, rule type, and dataset generation seed, are
 It is possible to pass additional parameters to the script to change them, as for example:
 
 ```
-$ cd src
-$ python psystems_experiments.py --parameters psystems.txt --random_seed 1 --ruleset_size 15 --rule_type send_out --dataset_seed 1
+cd src
+python psystems_experiments.py --parameters psystems.txt --random_seed 1 --ruleset_size 15 --rule_type send_out --dataset_seed 1
 ```
 
 ### Outcomes
