@@ -36,3 +36,6 @@ Each experiment generates some files:
   - parameters.txt summarized the employed parameters
   - best.txt reports the best individual
   - best_fitness.pdf displays the evolution of the fitness of the best individual
+
+## Other files
+The core lies in the src/fitness/psystems/IdentificationProblem.py where we define the parsing of rules from the grammar generated strings and the distance between membranes (i.e., the fitness function).
