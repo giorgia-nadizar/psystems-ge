@@ -24,15 +24,15 @@ params = {
     'RUNS': 1,
 
     # Class of problem
-    'FITNESS_FUNCTION': "supervised_learning.regression",
+    'FITNESS_FUNCTION': "psystems.IdentificationProblem",
 
     # Select problem dataset
-    'DATASET_TRAIN': "Vladislavleva4/Train.txt",
+    'DATASET_TRAIN': "Psystems/train_send_in_0.pbz2",
     'DATASET_TEST': None,
     'DATASET_DELIMITER': None,
 
     # Set grammar file
-    'GRAMMAR_FILE': "supervised_learning/Vladislavleva4.bnf",
+    'GRAMMAR_FILE': "psystems/ruleset_send_in_0.bnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
