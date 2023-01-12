@@ -68,16 +68,15 @@ class IdentificationProblem(base_ff):
         ruleset = [Rule.from_string(r) for r in ind.phenotype.split('; ')]
 
         # Evaluate the fitness of the phenotype
-        return self.compute_error(self.train_set, ruleset, verbose=True)
+        return self.compute_error(self.train_set, ruleset, verbose=False)
 
     @staticmethod
     def compute_error(train_set, ruleset, verbose=True):
-      print(ruleset)
       err = 0
       n = len(train_set)
       for before, after in train_set:
         b = Membrane.clone(before)
-        b.apply(ruleset, verbose=True)
+        b.apply(ruleset, verbose=verbose)
         d = Membrane.distance(b, after)
         if verbose:
           print(f'Input: {before}\tObtained: {b}\tExpected: {after}\tDist={d}\n')
