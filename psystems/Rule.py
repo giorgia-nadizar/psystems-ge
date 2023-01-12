@@ -23,8 +23,8 @@ class Rule:
     def from_string(cls, string):
         label, str_lhs, str_rule_type, str_rhs = tuple(string.split(' '))
         rule_type = RuleType[str_rule_type.upper()]
-        lhs = str_lhs.replace('{', '').replace('}', '').split(',')
-        rhs = [li.split(',') for li in str_rhs.replace('}{', '-').replace('{', '').replace('}', '').split('-')]
+        lhs = str_lhs.replace('{', '').replace('}', '').split('/')
+        rhs = [li.split('/') for li in str_rhs.replace('}{', '-').replace('{', '').replace('}', '').split('-')]
         return Rule(lhs, rhs, label, rule_type)
 
     def apply(self, membrane, verbose=False):

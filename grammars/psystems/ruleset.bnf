@@ -4,6 +4,6 @@
             <membrane> {<multiset>} send_in {<multiset>} |
             <membrane> {<multiset>} send_out {<multiset>} |
             <membrane> {<multiset>} division {<multiset>}{<multiset>}
-<multiset> ::= <multiset>,<object> | <object>
+<multiset> ::= <multiset>/<object> | <object>
 <membrane> ::= LABELS
 <object> ::= OBJECTS
