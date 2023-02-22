@@ -32,6 +32,81 @@ def make_train_set(membrane, ruleset, steps):
     return data
 
 
+def unary_addition(n):
+    ruleset = []
+    content = []
+    objects = set(["a", "b", "c"])
+    r = Rule(["a"], [["c"]], "k", RuleType.SEND_OUT)
+    ruleset.append(r)
+    r = Rule(["b"], [["c"]], "k", RuleType.SEND_OUT)
+    ruleset.append(r)
+    x = random.randint(0, n)
+    for i in range(0, x):
+        content.append("a")
+    for i in range(x, n):
+        content.append("b")
+    h = Membrane("h", "")
+    k = Membrane("k", content, parent=h)
+    h.children = [k]
+    return h, ruleset, objects
+
+
+def unary_multiplication(n):
+    ruleset = []
+    content = []
+    objects = set(["a", "b"])
+    rhs = ["b"] * n
+    r = Rule(["a"], [rhs], "k", RuleType.SEND_OUT)
+    ruleset.append(r)
+    x = random.randint(0, n)
+    for i in range(0, x):
+        content.append("a")
+    h = Membrane("h", "")
+    k = Membrane("k", content, parent=h)
+    h.children = [k]
+    return h, ruleset, objects
+
+
+def unary_div(n):
+    ruleset = []
+    content = []
+    objects = set(["a", "b"])
+    lhs = ["a"] * n
+    r = Rule(lhs, [["b"]], "k", RuleType.SEND_OUT)
+    ruleset.append(r)
+    x = random.randint(0, n * n)
+    for i in range(0, x):
+        content.append("a")
+
+    h = Membrane("h", "")
+    k = Membrane("k", content, parent=h)
+    h.children = [k]
+    return h, ruleset, objects
+
+
+def operations(n):
+    h_add, ruleset_add, objects_add = unary_addition(n)
+    h_mul, ruleset_mul, objects_mul = unary_multiplication(n)
+    h_div, ruleset_div, objects_div = unary_div(n)
+
+    ruleset = ruleset_mul + ruleset_div + ruleset_add
+    objects = objects_mul | objects_div | objects_add
+
+    content = []
+    x = random.randint(0, n * n)
+    for i in range(0, x):
+        content.append("a")
+    for i in range(0, x):
+        content.append("a")
+    for i in range(x, n):
+        content.append("b")
+    h = Membrane("h", "")
+    k = Membrane("k", content, parent=h)
+    h.children = [k]
+
+    return h, ruleset, objects
+
+
 def variable_assignment(n):
     ruleset = []
     content = []
@@ -156,11 +231,19 @@ def generate_dataset_and_grammar(n, name, seed=0):
         m, r, obj_all = send_in(n)
     elif name == "send_out":
         m, r, obj_all = send_out(n)
-    elif name == "division":
+    elif name == "tm_simulation":
         m, r, obj_all = tm_simulation(n)
+    elif name == "unary-add":
+        m, r, obj_all = unary_addition(n)
+    elif name == "unary-mult":
+        m, r, obj_all = unary_multiplication(n)
+    elif name == "unary-div":
+        m, r, obj_all = unary_div(n)
+    elif name == "operations":
+        m, r, obj_all = operations(n)
     else:
         raise KeyError(f"No dataset for {name}")
-    if name != "division":
+    if name != "tm_simulation":
         train = make_train_set(m, r, n)
         labels = ["h", "k"]
     else:
