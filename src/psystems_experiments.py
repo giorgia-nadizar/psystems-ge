@@ -35,7 +35,7 @@ def make_train_set(membrane, ruleset, steps):
 def unary_addition(n):
     ruleset = []
     content = []
-    objects = set(["a", "b", "c"])
+    objects = {"a", "b", "c"}
     r = Rule(["a"], [["c"]], "k", RuleType.SEND_OUT)
     ruleset.append(r)
     r = Rule(["b"], [["c"]], "k", RuleType.SEND_OUT)
@@ -54,7 +54,7 @@ def unary_addition(n):
 def unary_multiplication(n):
     ruleset = []
     content = []
-    objects = set(["a", "b"])
+    objects = {"a", "b"}
     rhs = ["b"] * n
     r = Rule(["a"], [rhs], "k", RuleType.SEND_OUT)
     ruleset.append(r)
@@ -70,7 +70,7 @@ def unary_multiplication(n):
 def unary_div(n):
     ruleset = []
     content = []
-    objects = set(["a", "b"])
+    objects = {"a", "b"}
     lhs = ["a"] * n
     r = Rule(lhs, [["b"]], "k", RuleType.SEND_OUT)
     ruleset.append(r)
