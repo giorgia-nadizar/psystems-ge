@@ -273,8 +273,8 @@ def mane():
     """ Run program """
     cmd_args, _ = parse_cmd_args(sys.argv[1:])
     generate_dataset_and_grammar(
-        n=cmd_args['RULESET_SIZE'],
-        name=cmd_args['RULE_TYPE'],
+        n=cmd_args['PROBLEM_SIZE'],
+        name=cmd_args['PROBLEM'],
         p=cmd_args['P'],
         seed=cmd_args['DATASET_SEED'],
         setting=cmd_args['SETTING']

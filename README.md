@@ -19,12 +19,24 @@ python psystems_experiments.py --parameters psystems.txt
 ```
 This will automatically create a sequence of membrane configurations and a suitable grammar for evolving the ruleset.
 The file psystems.txt (located in the parameters folder) can be customized to edit parameters, e.g., alter number of generations or population size.
-The default values for ruleset size, rule type, and dataset generation seed, are 10, send_in, and 0, respectively.
+The default values for problem size, problem, and dataset generation seed, are 2, send_in, and 0, respectively.
 It is possible to pass additional parameters to the script to change them, as for example:
 
 ```
 cd src
-python psystems_experiments.py --parameters psystems.txt --random_seed 1 --ruleset_size 15 --rule_type send_out --dataset_seed 1
+python psystems_experiments.py --parameters psystems.txt --random_seed 1 --problem_size 3 --problem send_out --dataset_seed 0
+```
+
+We also provide some "simplified" grammars, relative to the send-in, send-out, and variable assigment problems.
+To use them, it is necessary to add the following parameter:
+```
+--setting easy
+```
+
+Moreover, only for the elementary operations it is possibly to specify the parameter `p`, which is otherwise set to 
+$\lceil \frac{n}{2} \rceil$ for addition and multiplication, and to $n$ for division.
+```
+--p_size 2
 ```
 
 ### Outcomes

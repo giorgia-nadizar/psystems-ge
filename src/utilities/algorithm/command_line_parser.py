@@ -432,8 +432,8 @@ def parse_cmd_args(arguments):
                         default=None,
                         help='Saves plots for best fitness.')
     # P SYSTEMS SPECIFIC
-    parser.add_argument('--rule_type',
-                        dest='RULE_TYPE',
+    parser.add_argument('--problem',
+                        dest='PROBLEM',
                         type=str,
                         default='send_in',
                         help='Specifies the rule to generate the training set.')
@@ -442,11 +442,11 @@ def parse_cmd_args(arguments):
                         type=str,
                         default='standard',
                         help='Specifies the setting to use (standard or easy).')
-    parser.add_argument('--ruleset_size',
-                        dest='RULESET_SIZE',
+    parser.add_argument('--problem_size',
+                        dest='PROBLEM_SIZE',
                         type=int,
-                        default=5,
-                        help='Specifies the target size of the ruleset to generate the training set.')
+                        default=2,
+                        help='Specifies the target size of the problem to generate the training set.')
     parser.add_argument('--p_size',
                         dest='P',
                         type=int,
