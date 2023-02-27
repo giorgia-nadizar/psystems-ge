@@ -1,0 +1,6 @@
+<ruleset> ::= <rule>; <ruleset> |
+              <rule>
+<rule> ::= <membrane> {<object>} evolution {<object>} |
+            <membrane> {<object>} send_out {<object>}
+<membrane> ::= LABELS
+<object> ::= OBJECTS

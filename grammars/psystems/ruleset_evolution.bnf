@@ -1,0 +1,6 @@
+<ruleset> ::= <rule>; <ruleset> |
+              <rule>
+<rule> ::= <membrane> {<object>} evolution {<object>} |
+            <membrane> {<object>} division {<object>}{<object>}
+<membrane> ::= LABELS
+<object> ::= OBJECTS

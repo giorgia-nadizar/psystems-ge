@@ -437,11 +437,21 @@ def parse_cmd_args(arguments):
                         type=str,
                         default='send_in',
                         help='Specifies the rule to generate the training set.')
+    parser.add_argument('--setting',
+                        dest='SETTING',
+                        type=str,
+                        default='standard',
+                        help='Specifies the setting to use (standard or easy).')
     parser.add_argument('--ruleset_size',
                         dest='RULESET_SIZE',
                         type=int,
                         default=5,
                         help='Specifies the target size of the ruleset to generate the training set.')
+    parser.add_argument('--p_size',
+                        dest='P',
+                        type=int,
+                        default=1,
+                        help='Specifies the value of p for elementary operations.')
     parser.add_argument('--dataset_seed',
                         dest='DATASET_SEED',
                         type=int,

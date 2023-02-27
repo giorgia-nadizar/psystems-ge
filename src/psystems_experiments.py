@@ -32,7 +32,7 @@ def make_train_set(membrane, ruleset, steps):
     return data
 
 
-def unary_addition(n):
+def unary_addition(n, p):
     ruleset = []
     content = []
     objects = {"a", "b", "c"}
@@ -40,10 +40,9 @@ def unary_addition(n):
     ruleset.append(r)
     r = Rule(["b"], [["c"]], "k", RuleType.SEND_OUT)
     ruleset.append(r)
-    x = random.randint(0, n)
-    for i in range(0, x):
+    for i in range(0, p):
         content.append("a")
-    for i in range(x, n):
+    for i in range(p, n):
         content.append("b")
     h = Membrane("h", "")
     k = Membrane("k", content, parent=h)
@@ -51,15 +50,14 @@ def unary_addition(n):
     return h, ruleset, objects
 
 
-def unary_multiplication(n):
+def unary_multiplication(n, p):
     ruleset = []
     content = []
     objects = {"a", "b"}
     rhs = ["b"] * n
     r = Rule(["a"], [rhs], "k", RuleType.SEND_OUT)
     ruleset.append(r)
-    x = random.randint(0, n)
-    for i in range(0, x):
+    for i in range(0, p):
         content.append("a")
     h = Membrane("h", "")
     k = Membrane("k", content, parent=h)
@@ -67,15 +65,14 @@ def unary_multiplication(n):
     return h, ruleset, objects
 
 
-def unary_div(n):
+def unary_div(n, p):
     ruleset = []
     content = []
     objects = {"a", "b"}
     lhs = ["a"] * n
     r = Rule(lhs, [["b"]], "k", RuleType.SEND_OUT)
     ruleset.append(r)
-    x = random.randint(0, n * n)
-    for i in range(0, x):
+    for i in range(0, p):
         content.append("a")
 
     h = Membrane("h", "")
@@ -84,10 +81,10 @@ def unary_div(n):
     return h, ruleset, objects
 
 
-def operations(n):
-    h_add, ruleset_add, objects_add = unary_addition(n)
-    h_mul, ruleset_mul, objects_mul = unary_multiplication(n)
-    h_div, ruleset_div, objects_div = unary_div(n)
+def operations(n, p):
+    h_add, ruleset_add, objects_add = unary_addition(n, p)
+    h_mul, ruleset_mul, objects_mul = unary_multiplication(n, p)
+    h_div, ruleset_div, objects_div = unary_div(n, p)
 
     ruleset = ruleset_mul + ruleset_div + ruleset_add
     objects = objects_mul | objects_div | objects_add
@@ -223,7 +220,9 @@ def send_out(n):
     return h, ruleset, objects
 
 
-def generate_dataset_and_grammar(n, name, seed=0):
+def generate_dataset_and_grammar(n, name, p=None, seed=0, setting="standard"):
+    if p is None:
+        p = n / 2
     random.seed(seed)
     if name == "evolution":
         m, r, obj_all = variable_assignment(n)
@@ -234,13 +233,13 @@ def generate_dataset_and_grammar(n, name, seed=0):
     elif name == "tm_simulation":
         m, r, obj_all = tm_simulation(n)
     elif name == "unary-add":
-        m, r, obj_all = unary_addition(n)
+        m, r, obj_all = unary_addition(n, p)
     elif name == "unary-mult":
-        m, r, obj_all = unary_multiplication(n)
+        m, r, obj_all = unary_multiplication(n, p)
     elif name == "unary-div":
-        m, r, obj_all = unary_div(n)
+        m, r, obj_all = unary_div(n, p)
     elif name == "operations":
-        m, r, obj_all = operations(n)
+        m, r, obj_all = operations(n, p)
     else:
         raise KeyError(f"No dataset for {name}")
     if name != "tm_simulation":
@@ -253,18 +252,33 @@ def generate_dataset_and_grammar(n, name, seed=0):
     with bz2.BZ2File(path.join("..", "datasets", f"Psystems/train_{name}_{seed}.pbz2"), 'w') as dataset_file:
         _pickle.dump(train, dataset_file)
     # create grammar file
-    with open(path.join("..", "grammars", "psystems/ruleset.bnf")) as template_grammar_file:
-        template_grammar = template_grammar_file.read()
-        grammar = template_grammar.replace('LABELS', ' | '.join(labels)).replace('OBJECTS', ' | '.join(obj_all))
-        with open(path.join("..", "grammars", f"psystems/ruleset_{name}_{seed}.bnf"), "w+") as target_grammar_file:
-            target_grammar_file.write(grammar)
+    if setting == "standard":
+        with open(path.join("..", "grammars", "psystems/ruleset.bnf")) as template_grammar_file:
+            template_grammar = template_grammar_file.read()
+            grammar = template_grammar.replace('LABELS', ' | '.join(labels)).replace('OBJECTS', ' | '.join(obj_all))
+            with open(path.join("..", "grammars", f"psystems/ruleset_{name}_{seed}.bnf"), "w+") as target_grammar_file:
+                target_grammar_file.write(grammar)
+    elif setting == "easy":
+        with open(path.join("..", "grammars", f"psystems/ruleset_{name}.bnf")) as template_grammar_file:
+            template_grammar = template_grammar_file.read()
+            grammar = template_grammar.replace('LABELS', ' | '.join(labels)).replace('OBJECTS', ' | '.join(obj_all))
+            with open(path.join("..", "grammars", f"psystems/ruleset_{name}_{seed}.bnf"), "w+") as target_grammar_file:
+                target_grammar_file.write(grammar)
+    else:
+        raise KeyError
     return f"{name}_{seed}"
 
 
 def mane():
     """ Run program """
     cmd_args, _ = parse_cmd_args(sys.argv[1:])
-    generate_dataset_and_grammar(cmd_args['RULESET_SIZE'], cmd_args['RULE_TYPE'], cmd_args['DATASET_SEED'])
+    generate_dataset_and_grammar(
+        n=cmd_args['RULESET_SIZE'],
+        name=cmd_args['RULE_TYPE'],
+        p=cmd_args['P'],
+        seed=cmd_args['DATASET_SEED'],
+        setting=cmd_args['SETTING']
+    )
     set_params(sys.argv[1:])
 
     # Run evolution

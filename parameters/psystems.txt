@@ -2,6 +2,6 @@ FITNESS_FUNCTION:       psystems.IdentificationProblem
 DATASET_TRAIN:          Psystems/train_EXPERIMENT_NAME.pbz2
 GRAMMAR_FILE:           psystems/ruleset_EXPERIMENT_NAME.bnf
 POPULATION_SIZE:        1000
-GENERATIONS:            250
+GENERATIONS:            2000
 MULTICORE:              True
 CORES:                  8
