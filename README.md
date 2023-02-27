@@ -1,7 +1,13 @@
 # P Systems inference via Grammatical Evolution
 
 ## Abstract
-P systems are a bio-inspired framework for defining parallel models of computation. Despite their relevance for both theoretical and application scenarios, the design and synthesis of P systems remain a tedious and demanding task. In this work, we try to address this problem by proposing an automated design methodology based on Grammatical Evolution (GE)—an evolutionary computation technique. We consider a situation where observations of the steps of a P system are available, and we rely on GE for automatically inferring its structure, i.e., its rules.
+P systems are a bio-inspired framework for defining parallel models of computation.
+Despite their relevance for both theoretical and application scenarios, the design of P systems remains a tedious and demanding task, requiring considerable time and expertise.
+In this work, we try to address this problem by proposing an automated methodology based on Grammatical Evolution (GE)—an evolutionary computation technique—which does not require any domain knowledge.
+We consider a setting where observations of successive configurations of a P system are available, and we rely on GE for automatically inferring the P system, i.e., its ruleset.
+We assess the practicability of the proposed method on six problems of various difficulties and evaluate its behavior in terms of inference capability and time consumption.
+Experimental results confirm our approach is a viable strategy for small problem sizes, where it achieves perfect inference in a few seconds without any human intervention.
+Moreover, we also obtain promising results for larger problem sizes in a human-aided context, paving the way for fully- or partially-automated design of P systems.
 
 ## Code
 - P systems code based on [Psystem-GA](https://github.com/gpietrop/Psystem-GA).
